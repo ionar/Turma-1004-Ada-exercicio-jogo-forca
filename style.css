@@ -1,0 +1,49 @@
+body {
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+}
+
+.tipografia-jogo {
+    font-family: monospace;
+    font-size: 4rem;
+    text-transform: uppercase;
+}
+
+.letra-descoberta {
+    color: #ff0000;
+}
+
+.jogo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid #ff0000;
+}
+
+.jogo-centro-flex-item {
+    border: 1px solid #2247eb;
+}
+
+.corpinho-pre {
+    border: 1px solid #10e72d;
+    margin: 0;
+    padding: 0;
+}
+
+#letras-gabarito {
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-align: center;
+    padding: 0;
+}
+
+.letrinhas {
+    padding: 3px;
+}
+
+#input-usuario {
+    margin:0;
+    padding:0;
+    width: 50px;
+}

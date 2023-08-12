@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="jogo-container">
+        <div></div>
+        <div class="jogo-centro-flex-item">
+<pre class="corpinho-pre tipografia-jogo">
+    +----+
+    |    |
+    <span id="cabeca">O</span>    |
+   <span id="braco-esquerdo">/</span><span id="tronco">|</span><span id="braco-direito">\</span>   |
+   <span id="perna-esquerda">/</span> <span id="perna-direita">\</span>   |
+         |
+=========+
+</pre>
+            <div id="letras-gabarito" class="tipografia-jogo"></div>
+            <div id="entrada-usuario" class="tipografia-jogo">
+                <span class="tipografia-jogo">LETRA:</span><input id="input-usuario" type="text" maxlength="1" size="1" class="tipografia-jogo"><input type="button" value="TENTAR">
+            </div>
+        </div>
+        <div></div>
+    </section>
+    <script src="index.js"></script>
+</body>
+</html>
