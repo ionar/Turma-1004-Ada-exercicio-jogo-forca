@@ -2,9 +2,6 @@
 * Jogo da forca - Ionar
 */
 
-// Definindo o foco no input do usuário
-document.getElementById("input-usuario").focus();
-
 // Lista de palavras para a forca
 const palavras = ["banana", "brocolis", "camaro", "marron", "picanha", "violeta", "computador", "leitura", "vinho"]
 
@@ -33,7 +30,7 @@ palavraArray.forEach((element, index) => {
 let letraProcurada = "a"
 
 const found = palavraArray.includes(letraProcurada)
-console.log(found);
+//console.log(found);
 
 // Se encontrou, preciso saber as posicões no array
 if (found) {
@@ -51,5 +48,22 @@ if (found) {
     });
 }
 
+// Capturar clique no botão e disparar a funcao de busca de letra
 
+window.onload=function(){
+    // Definindo o foco no input do usuário
+    document.getElementById("input-usuario").focus();
+    let inputBtn = document.getElementById("tentar-btn");
+    let input = document.getElementById("input-usuario");
+    let texto = input.value;
+
+    inputBtn.onclick = function() {
+        tentativa();
+        console.log("tentei");
+    };
+
+    function tentativa() {
+        console.log(texto);
+    }
+}
 

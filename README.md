@@ -7,6 +7,7 @@
 Jogo de Forca em JavaScript
 
 Data de entrega  21/08/2023
+Endereço de deploy: 
 
 Você está prestes a criar um jogo de forca em JavaScript! O jogo consiste em adivinhar uma palavra oculta, letra por letra. Você terá um número limitado de tentativas para adivinhar a palavra correta.
 
