@@ -10,9 +10,7 @@ body {
     text-transform: uppercase;
 }
 
-.letra-descoberta {
-    color: #ff0000;
-}
+
 
 .jogo-container {
     display: flex;
@@ -33,13 +31,22 @@ body {
 
 #letras-gabarito {
     text-transform: uppercase;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     text-align: center;
     padding: 0;
 }
 
+.letrinhasWrap {
+    margin: 4px;
+    border-bottom: 5px solid #000;
+}
+
 .letrinhas {
-    padding: 3px;
+    visibility: hidden;
+}
+
+.letra-descoberta {
+    visibility: visible;
 }
 
 #input-usuario {
