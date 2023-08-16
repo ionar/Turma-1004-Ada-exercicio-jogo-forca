@@ -15,10 +15,12 @@ function sortearPalavra() {
 
 let palavra = sortearPalavra();
 console.log(palavra);
-// document.querySelector('#gabarito').textContent = palavra;
+
 
 // Convertendo a palavra em um array para poder manipudar cada letra
 let palavraArray = palavra.split('');
+
+// Preenchendo os elementos do DOM com a palavra sorteada
 
 palavraArray.forEach((element, index) => {
     let spanWrap = document.createElement('span');
@@ -46,11 +48,19 @@ inputBtn.onclick = function() {
     limpaInput();
 };
 
+const procuradasArray = []
+let errosDoUsuario = 0;
+
 function tentativa() {
     // Verificar se existe uma letra no array 
     let input = document.getElementById("input-usuario");
     let letraProcurada = input.value;
-    console.log(letraProcurada);
+    //console.log(letraProcurada);
+
+    // Jogar a letra da tentativa em um array e exibi-lo em tela
+    procuradasArray.push(letraProcurada)
+    let procuradasDiv = document.getElementById('letras-tentadas')
+    procuradasDiv.innerHTML = procuradasArray
 
     const found = palavraArray.includes(letraProcurada)
     //console.log(found);
@@ -70,6 +80,9 @@ function tentativa() {
             letra.classList.add("letra-descoberta");
             //console.log(element)
         });
+    } else {
+        errosDoUsuario++
+        desenhaForca(errosDoUsuario)
     }
 }
 
@@ -77,4 +90,51 @@ function limpaInput() {
     let input = document.getElementById("input-usuario");
      input.value = '';
      input.focus();
+}
+
+function desenhaForca(qtdErros) {
+    switch (qtdErros) {
+        case 1:
+            console.log("desenha: " + 1);
+            let cabeca = document.getElementById("cabeca");
+            cabeca.classList.add("palitinho-visivel");
+        break;
+
+        case 2:
+            let bracoEsquerdo = document.getElementById("braco-esquerdo");
+            bracoEsquerdo.classList.add("palitinho-visivel");
+            console.log("desenha: " + 2);
+        break;
+
+        case 3:
+            let tronco = document.getElementById("tronco");
+            tronco.classList.add("palitinho-visivel");
+            console.log("desenha: " + 3);
+        break;
+
+        case 4:
+            let bracoDireito = document.getElementById("braco-direito");
+            bracoDireito.classList.add("palitinho-visivel");
+            console.log("desenha: " + 4);
+        break;
+
+        case 5:
+            let pernaEsquerda = document.getElementById("perna-esquerda");
+            pernaEsquerda.classList.add("palitinho-visivel");
+            console.log("desenha: " + 5);
+        break;
+
+        case 6:
+            let pernaDireita = document.getElementById("perna-direita");
+            pernaDireita.classList.add("palitinho-visivel");
+            console.log("game over : " + 6);
+            animacaoGameOver();
+        break;
+    }
+}
+
+function animacaoGameOver() {
+    let forca = document.getElementById("id-corpinho-pre");
+    forca.classList.add("palitinhos-game-over");
+
 }
