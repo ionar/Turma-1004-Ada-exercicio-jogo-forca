@@ -10,6 +10,11 @@ body {
     text-transform: uppercase;
 }
 
+.tipografia-jogo-menor {
+    font-family: monospace;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
 .jogo-container {
     display: flex;
     justify-content: space-between;
@@ -19,6 +24,15 @@ body {
 
 .jogo-centro-flex-item {
     border: 1px solid #2247eb;
+}
+
+#mensagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    color: #fff;
+    background-color: #000;
 }
 
 .corpinho-pre {
@@ -76,7 +90,6 @@ body {
     padding:0;
     width: 50px;
 }
-
 
 @keyframes myAnim {
 	0%,

@@ -48,8 +48,9 @@ inputBtn.onclick = function() {
     limpaInput();
 };
 
-const procuradasArray = []
+const procuradasArray = [];
 let errosDoUsuario = 0;
+let acertosDoUsuario = 0;
 
 function tentativa() {
     // Verificar se existe uma letra no array 
@@ -63,7 +64,7 @@ function tentativa() {
     procuradasDiv.innerHTML = procuradasArray
 
     const found = palavraArray.includes(letraProcurada)
-    //console.log(found);
+    console.log("FOUND " + found);
 
     // Se encontrou, preciso saber as posicões no array
     if (found) {
@@ -79,10 +80,19 @@ function tentativa() {
             let letra = document.getElementById(element)
             letra.classList.add("letra-descoberta");
             //console.log(element)
+            acertosDoUsuario++
         });
     } else {
         errosDoUsuario++
         desenhaForca(errosDoUsuario)
+    }
+
+    // Conferindo o contador de acertos
+    //console.log("acertos " + acertosDoUsuario)
+
+    // Se a quantidade de acertos for igual ao tamanho da palavra, venceu o jogo
+    if (palavraArray.length == acertosDoUsuario) {
+        youWin()
     }
 }
 
@@ -128,7 +138,7 @@ function desenhaForca(qtdErros) {
             let pernaDireita = document.getElementById("perna-direita");
             pernaDireita.classList.add("palitinho-visivel");
             console.log("game over : " + 6);
-            animacaoGameOver();
+            gameOver();
         break;
     }
 }
@@ -136,5 +146,36 @@ function desenhaForca(qtdErros) {
 function animacaoGameOver() {
     let forca = document.getElementById("id-corpinho-pre");
     forca.classList.add("palitinhos-game-over");
-
 }
+
+function gameOver(){
+    console.log("Você perdeu")
+    desabilitaControles()
+    animacaoGameOver();
+    exibirMensagem("GAME OVER!!!")
+}
+
+function youWin(){
+    console.log("Você venceu")
+    desabilitaControles()
+    exibirMensagem("ACERTÔ MISERAVI!!")
+}
+
+function desabilitaControles() {
+    let input = document.getElementById("input-usuario");
+    let btn = document.getElementById("tentar-btn");
+    input.disabled = true;
+    btn.disabled = true;
+}
+
+function exibirMensagem(msg) {
+    let mensagem = document.getElementById("mensagem");
+    mensagem.innerHTML = msg;
+}
+
+// To do:
+
+// converter input para minusculo antes de comparar
+// não deixar repetir letra
+// estilos
+// ao perder, revelar a palavra
