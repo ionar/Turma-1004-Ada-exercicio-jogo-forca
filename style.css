@@ -6,7 +6,7 @@ body {
 
 .tipografia-jogo {
     font-family: monospace;
-    font-size: 4rem;
+    font-size: 3rem;
     text-transform: uppercase;
 }
 
@@ -78,6 +78,19 @@ body {
     border: 1px solid #ff0000;
     margin-top: 20px;
     text-transform: uppercase;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+#revelada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    color: #fff;
+    background-color: #000;
 }
 
 #entrada-usuario {

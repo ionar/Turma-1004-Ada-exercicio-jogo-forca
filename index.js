@@ -158,6 +158,9 @@ function gameOver(){
     desabilitaControles()
     animacaoGameOver();
     exibirMensagem("GAME OVER!!!")
+
+    let revelaResposta = document.getElementById("revelada");
+    revelaResposta.innerHTML = palavra;
 }
 
 function youWin(){
@@ -182,3 +185,4 @@ function exibirMensagem(msg) {
 
 // estilos
 // ao perder, revelar a palavra
+// submeter ao pressionar em enter
