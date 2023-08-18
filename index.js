@@ -5,7 +5,7 @@
 //window.onload=function(){}
 
 // Lista de palavras para a forca
-const palavras = ["banana", "brocolis", "camaro", "marron", "picanha", "violeta", "computador", "leitura", "vinho", "camisa"]
+const palavras = ["banana", "brocolis", "camaro", "marron", "picanha", "violeta", "computador", "leitura", "vinho", "camisa", "repolho", "caixa"]
 
 // Funcao para sortear uma palavra
 function sortearPalavra() {
@@ -20,8 +20,7 @@ console.log(palavra);
 // Convertendo a palavra em um array para poder manipudar cada letra
 let palavraArray = palavra.split('');
 
-// Preenchendo os elementos do DOM com a palavra sorteada
-
+// Preenchendo os elementos do DOM com a palavra sorteada, simulando os tracejados
 palavraArray.forEach((element, index) => {
     let spanWrap = document.createElement('span');
     spanWrap.setAttribute('class', "letrinhasWrap");
@@ -55,44 +54,50 @@ let acertosDoUsuario = 0;
 function tentativa() {
     // Verificar se existe uma letra no array 
     let input = document.getElementById("input-usuario");
-    let letraProcurada = input.value;
+    // Executo as funcoes em lowercase, mas exibo em tela em uppercase
+    let letraProcurada = input.value.toLowerCase();
     //console.log(letraProcurada);
 
     // Jogar a letra da tentativa em um array e exibi-lo em tela
-    procuradasArray.push(letraProcurada)
-    let procuradasDiv = document.getElementById('letras-tentadas')
-    procuradasDiv.innerHTML = procuradasArray
-
-    const found = palavraArray.includes(letraProcurada)
-    console.log("FOUND " + found);
-
-    // Se encontrou, preciso saber as posicões no array
-    if (found) {
-        const indexesOf = (arr, item) => 
-        arr.reduce(
-        (acc, v, i) => (v === item && acc.push(i), acc),
-        []);
-        const letrasReveladas = indexesOf(palavraArray, letraProcurada)
-        console.log(letrasReveladas);
-
-        //Adiciono uma classe css para poder manipular a letra descoberta
-        letrasReveladas.forEach((element, index) => {
-            let letra = document.getElementById(element)
-            letra.classList.add("letra-descoberta");
-            //console.log(element)
-            acertosDoUsuario++
-        });
+    //Mas antes verificar se ela ja foi tentada
+    if (procuradasArray.includes(letraProcurada)) {
+        alert("essa já foi")
     } else {
-        errosDoUsuario++
-        desenhaForca(errosDoUsuario)
-    }
+        procuradasArray.push(letraProcurada)
+        let procuradasDiv = document.getElementById('letras-tentadas')
+        procuradasDiv.innerHTML = procuradasArray
 
-    // Conferindo o contador de acertos
-    //console.log("acertos " + acertosDoUsuario)
+        const found = palavraArray.includes(letraProcurada)
+        console.log("FOUND " + found);
 
-    // Se a quantidade de acertos for igual ao tamanho da palavra, venceu o jogo
-    if (palavraArray.length == acertosDoUsuario) {
-        youWin()
+        // Se encontrou, preciso saber as posicões no array
+        if (found) {
+            const indexesOf = (arr, item) => 
+            arr.reduce(
+            (acc, v, i) => (v === item && acc.push(i), acc),
+            []);
+            const letrasReveladas = indexesOf(palavraArray, letraProcurada)
+            console.log(letrasReveladas);
+
+            //Adiciono uma classe css para poder manipular a letra descoberta
+            letrasReveladas.forEach((element, index) => {
+                let letra = document.getElementById(element)
+                letra.classList.add("letra-descoberta");
+                //console.log(element)
+                acertosDoUsuario++
+            });
+        } else {
+            errosDoUsuario++
+            desenhaForca(errosDoUsuario)
+        }
+
+        // Conferindo o contador de acertos
+        //console.log("acertos " + acertosDoUsuario)
+
+        // Se a quantidade de acertos for igual ao tamanho da palavra, venceu o jogo
+        if (palavraArray.length == acertosDoUsuario) {
+            youWin()
+        }
     }
 }
 
@@ -175,7 +180,5 @@ function exibirMensagem(msg) {
 
 // To do:
 
-// converter input para minusculo antes de comparar
-// não deixar repetir letra
 // estilos
 // ao perder, revelar a palavra
