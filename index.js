@@ -5,7 +5,7 @@
 //window.onload=function(){}
 
 // Lista de palavras para a forca
-const palavras = ["banana", "brocolis", "camaro", "marron", "picanha", "violeta", "computador", "leitura", "vinho", "camisa", "repolho", "caixa"]
+const palavras = ["banana", "brocolis", "camaro", "marron", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa"]
 
 // Funcao para sortear uma palavra
 function sortearPalavra() {
@@ -14,7 +14,7 @@ function sortearPalavra() {
 }
 
 let palavra = sortearPalavra();
-console.log(palavra);
+// console.log(palavra);
 
 
 // Convertendo a palavra em um array para poder manipudar cada letra
@@ -47,6 +47,14 @@ inputBtn.onclick = function() {
     limpaInput();
 };
 
+let input = document.getElementById("input-usuario");
+input.addEventListener("keyup", ({key}) => {
+    if (key === "Enter") {
+        tentativa();
+        limpaInput();
+    }
+})
+
 const procuradasArray = [];
 let errosDoUsuario = 0;
 let acertosDoUsuario = 0;
@@ -61,14 +69,16 @@ function tentativa() {
     // Jogar a letra da tentativa em um array e exibi-lo em tela
     //Mas antes verificar se ela ja foi tentada
     if (procuradasArray.includes(letraProcurada)) {
-        alert("essa já foi")
+        alert("Essa já foi, tente outra")
+    } else if (input.value == '' || input.value == ' '){
+        alert("Digite uma letra")
     } else {
         procuradasArray.push(letraProcurada)
         let procuradasDiv = document.getElementById('letras-tentadas')
         procuradasDiv.innerHTML = procuradasArray
 
         const found = palavraArray.includes(letraProcurada)
-        console.log("FOUND " + found);
+        // console.log("FOUND " + found);
 
         // Se encontrou, preciso saber as posicões no array
         if (found) {
@@ -77,7 +87,7 @@ function tentativa() {
             (acc, v, i) => (v === item && acc.push(i), acc),
             []);
             const letrasReveladas = indexesOf(palavraArray, letraProcurada)
-            console.log(letrasReveladas);
+            // console.log(letrasReveladas);
 
             //Adiciono uma classe css para poder manipular a letra descoberta
             letrasReveladas.forEach((element, index) => {
@@ -110,7 +120,6 @@ function limpaInput() {
 function desenhaForca(qtdErros) {
     switch (qtdErros) {
         case 1:
-            console.log("desenha: " + 1);
             let cabeca = document.getElementById("cabeca");
             cabeca.classList.add("palitinho-visivel");
         break;
@@ -118,31 +127,26 @@ function desenhaForca(qtdErros) {
         case 2:
             let bracoEsquerdo = document.getElementById("braco-esquerdo");
             bracoEsquerdo.classList.add("palitinho-visivel");
-            console.log("desenha: " + 2);
         break;
 
         case 3:
             let tronco = document.getElementById("tronco");
             tronco.classList.add("palitinho-visivel");
-            console.log("desenha: " + 3);
         break;
 
         case 4:
             let bracoDireito = document.getElementById("braco-direito");
             bracoDireito.classList.add("palitinho-visivel");
-            console.log("desenha: " + 4);
         break;
 
         case 5:
             let pernaEsquerda = document.getElementById("perna-esquerda");
             pernaEsquerda.classList.add("palitinho-visivel");
-            console.log("desenha: " + 5);
         break;
 
         case 6:
             let pernaDireita = document.getElementById("perna-direita");
             pernaDireita.classList.add("palitinho-visivel");
-            console.log("game over : " + 6);
             gameOver();
         break;
     }
@@ -153,20 +157,30 @@ function animacaoGameOver() {
     forca.classList.add("palitinhos-game-over");
 }
 
-function gameOver(){
-    console.log("Você perdeu")
-    desabilitaControles()
-    animacaoGameOver();
-    exibirMensagem("GAME OVER!!!")
+function animacaoVenceu() {
+    let forca = document.getElementById("id-corpinho-pre");
+    forca.classList.add("palitinhos-venceu");
+}
 
-    let revelaResposta = document.getElementById("revelada");
-    revelaResposta.innerHTML = palavra;
+function gameOver(){
+    // console.log("Você perdeu")
+    desabilitaControles()
+    animacaoGameOver()
+    exibirMensagem("GAME OVER!!!")
+    revelaPalavraFn()
 }
 
 function youWin(){
-    console.log("Você venceu")
+    // console.log("Você venceu")
     desabilitaControles()
     exibirMensagem("ACERTÔ MISERAVI!!")
+    animacaoVenceu()
+    revelaPalavraFn()
+}
+
+function revelaPalavraFn() {
+    let revelaResposta = document.getElementById("revelada");
+    revelaResposta.innerHTML = palavra;
 }
 
 function desabilitaControles() {
@@ -180,9 +194,3 @@ function exibirMensagem(msg) {
     let mensagem = document.getElementById("mensagem");
     mensagem.innerHTML = msg;
 }
-
-// To do:
-
-// estilos
-// ao perder, revelar a palavra
-// submeter ao pressionar em enter
