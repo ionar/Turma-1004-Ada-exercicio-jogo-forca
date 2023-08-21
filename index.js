@@ -70,7 +70,7 @@ function tentativa() {
     //Mas antes verificar se ela ja foi tentada
     if (procuradasArray.includes(letraProcurada)) {
         alert("Essa já foi, tente outra")
-    } else if (input.value == '' || input.value == ' '){
+    } else if (input.value == '' || input.value == ' ' || input.value == '*'){
         alert("Digite uma letra")
     } else {
         procuradasArray.push(letraProcurada)
