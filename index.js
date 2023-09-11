@@ -18,13 +18,14 @@ let palavraArray = palavra.split('');
 palavraArray.forEach((element, index) => {
     let spanWrap = document.createElement('span');
     spanWrap.setAttribute('class', "letrinhasWrap");
-    spanWrap.setAttribute('id', index + 100);
+    let indexStr = index.toString() + "100";
+    spanWrap.setAttribute('id', indexStr);
     let span = document.createElement('span');
     span.innerHTML = element;
     span.setAttribute('class', "letrinhas");
-    span.setAttribute('id', index);
+    span.setAttribute('id', index.toString());
     document.getElementById('letras-gabarito').appendChild(spanWrap);
-    document.getElementById(index + 100).appendChild(span);
+    document.getElementById(indexStr).appendChild(span);
 });
 // Capturar clique no botão e disparar a funcao de busca de letra
 // Definindo o foco no input do usuário
@@ -42,7 +43,7 @@ input.addEventListener("keyup", ({ key }) => {
         limpaInput();
     }
 });
-const procuradasArray = [];
+let procuradasArray = [];
 let errosDoUsuario = 0;
 let acertosDoUsuario = 0;
 function tentativa() {
