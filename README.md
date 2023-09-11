@@ -1,12 +1,13 @@
 # Programa Santander Coders 2023 by ADA
 
 ## Exercício jogo da forca, pela professora Jaque Laurenti.
+## Segunda etapa, reescrita do código em Typescript pelo professor Nicolas
 
 **ENUNCIADO:** 
 
 Jogo de Forca em JavaScript
 
-Data de entrega  21/08/2023
+Data de entrega  ?
 Endereço de deploy: http://ionar.com.br/Turma-1004-Ada-exercicio-jogo-forca/
 
 Você está prestes a criar um jogo de forca em JavaScript! O jogo consiste em adivinhar uma palavra oculta, letra por letra. Você terá um número limitado de tentativas para adivinhar a palavra correta.

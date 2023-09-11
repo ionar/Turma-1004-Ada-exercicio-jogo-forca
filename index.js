@@ -2,7 +2,7 @@
 * Jogo da forca - Ionar
 */
 
-//window.onload=function(){}
+// Convertendo o codigo para TypeScript
 
 // Lista de palavras para a forca
 const palavras = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro"]
