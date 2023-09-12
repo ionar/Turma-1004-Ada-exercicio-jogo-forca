@@ -3,9 +3,18 @@
 */
 // Convertendo o codigo para TypeScript
 
-class JogoDaForca {
+interface IJogo { 
+    palavras: string[];
+    palavra: string;
+    palavraArray: string[];
+    procuradasArray: string[];
+    errosDoUsuario: number;
+    acertosDoUsuario: number;
+}
+
+class JogoDaForca implements IJogo {
     // Lista de palavras para a forca
-    palavras: string[] = ["volksvagen", "banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
+    palavras: string[] = ['Banana','Laranja','Morango','Uva','Pera','Abacaxi','Melancia','Kiwi','Manga','Cereja','Abacate','Coco','Framboesa','Goiaba','Amora','Pitanga'];
     palavra: string = this.sortearPalavra();
     palavraArray: string[] = this.palavra.split('');
     procuradasArray: string[] = [];
@@ -14,7 +23,7 @@ class JogoDaForca {
     
     sortearPalavra() {
         const palavraSorteada: number = Math.floor(Math.random() * this.palavras.length);
-        return this.palavras[palavraSorteada];
+        return this.palavras[palavraSorteada].toLowerCase();
     }
 
     constructor() {
@@ -22,7 +31,7 @@ class JogoDaForca {
         this.palavraArray.forEach((element, index) => {
             let spanWrap = document.createElement('span');
             spanWrap.setAttribute('class', "letrinhasWrap");
-            let indexStr: string = index.toString() + "100";
+            let indexStr: string = index.toString() + "-wrapper";
             spanWrap.setAttribute('id', indexStr);
 
             let span = document.createElement('span');
