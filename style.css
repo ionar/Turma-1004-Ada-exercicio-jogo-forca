@@ -22,9 +22,9 @@ body {
     align-content: center;
 }
 
-.jogo-centro-flex-item {
+/* .jogo-centro-flex-item {
 
-}
+} */
 
 #mensagem {
     display: flex;

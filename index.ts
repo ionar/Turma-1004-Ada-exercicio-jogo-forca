@@ -16,7 +16,6 @@ function sortearPalavra() {
 let palavra = sortearPalavra();
 // console.log(palavra);
 
-
 // Convertendo a palavra em um array para poder manipudar cada letra
 let palavraArray: string[] = palavra.split('');
 
