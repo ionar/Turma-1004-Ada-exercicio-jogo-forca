@@ -3,198 +3,192 @@
 */
 // Convertendo o codigo para TypeScript
 
-// Classe de sorteio de palavras para uso no jogo
-class Sorteio {
+class JogoDaForca {
     // Lista de palavras para a forca
     palavras: string[] = ["volksvagen", "banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
-
+    palavra: string = this.sortearPalavra();
+    palavraArray: string[] = this.palavra.split('');
+    procuradasArray: string[] = [];
+    errosDoUsuario: number = 0;
+    acertosDoUsuario: number = 0;
+    
     sortearPalavra() {
         const palavraSorteada: number = Math.floor(Math.random() * this.palavras.length);
         return this.palavras[palavraSorteada];
     }
-}
 
-// Instanciando o objeto e chamando o metodo para sorteio
-let palavraObj = new Sorteio;
-const palavra: string = palavraObj.sortearPalavra();
-//console.log(palavra);
+    constructor() {
+        // Preenchendo os elementos do DOM com a palavra sorteada, simulando os tracejados
+        this.palavraArray.forEach((element, index) => {
+            let spanWrap = document.createElement('span');
+            spanWrap.setAttribute('class', "letrinhasWrap");
+            let indexStr: string = index.toString() + "100";
+            spanWrap.setAttribute('id', indexStr);
 
-// Convertendo a palavra em um array para poder manipudar cada letra
-let palavraArray: string[] = palavra.split('');
+            let span = document.createElement('span');
+            span.innerHTML = element;
+            span.setAttribute('class', "letrinhas");
+            span.setAttribute('id', index.toString());
+            document.getElementById('letras-gabarito').appendChild(spanWrap); 
+            
+            document.getElementById(indexStr).appendChild(span);
+        });
 
-// Preenchendo os elementos do DOM com a palavra sorteada, simulando os tracejados
-palavraArray.forEach((element, index) => {
-    let spanWrap = document.createElement('span');
-    spanWrap.setAttribute('class', "letrinhasWrap");
-    let indexStr: string = index.toString() + "100";
-    spanWrap.setAttribute('id', indexStr);
+        // Capturar clique no botão e disparar a funcao de busca de letra
+        // Definindo o foco no input do usuário
+        document.getElementById("input-usuario").focus();
+        
+        // Capturando o clique do botao
+        let inputBtn = document.getElementById("tentar-btn");
+        inputBtn.onclick = () => {
+            this.tentativa();
+            this.limpaInput();
+        };
 
-    let span = document.createElement('span');
-    span.innerHTML = element;
-    span.setAttribute('class', "letrinhas");
-    span.setAttribute('id', index.toString());
-    document.getElementById('letras-gabarito').appendChild(spanWrap); 
-    
-    document.getElementById(indexStr).appendChild(span);
-});
-
-// Capturar clique no botão e disparar a funcao de busca de letra
-
-// Definindo o foco no input do usuário
-document.getElementById("input-usuario").focus();
-
-// Capturando o clique do botao
-let inputBtn = document.getElementById("tentar-btn");
-inputBtn.onclick = function() {
-    tentativa();
-    limpaInput();
-};
-
-let input = document.getElementById("input-usuario");
-input.addEventListener("keyup", ({key}) => {
-    if (key === "Enter") {
-        tentativa();
-        limpaInput();
+        let input = document.getElementById("input-usuario");
+        input.addEventListener("keyup", ({key}) => {
+            if (key === "Enter") {
+                this.tentativa();
+                this.limpaInput();
+            }
+        })
     }
-})
 
-let procuradasArray: string[] = [];
-let errosDoUsuario: number = 0;
-let acertosDoUsuario: number = 0;
+    tentativa() {
+        // Verificar se existe uma letra no array 
+        let input = (document.getElementById("input-usuario") as HTMLInputElement);
+        // Executo as funcoes em lowercase, mas exibo em tela em uppercase
+        let letraProcurada: string = input.value.toLowerCase();
+        //console.log(letraProcurada);
 
-function tentativa() {
-    // Verificar se existe uma letra no array 
-    let input = (document.getElementById("input-usuario") as HTMLInputElement);
-    // Executo as funcoes em lowercase, mas exibo em tela em uppercase
-    let letraProcurada: string = input.value.toLowerCase();
-    //console.log(letraProcurada);
-
-    // Jogar a letra da tentativa em um array e exibi-lo em tela
-    //Mas antes verificar se ela ja foi tentada
-    if (procuradasArray.includes(letraProcurada)) {
-        alert("Essa já foi, tente outra")
-    } else if (input.value == '' || input.value == ' ' || input.value == '*'){
-        alert("Digite uma letra")
-    } else {
-        procuradasArray.push(letraProcurada);
-        let procuradasDiv = <HTMLElement>document.getElementById('letras-tentadas');
-        procuradasDiv.innerHTML = procuradasArray.toString();
-        // console.log(procuradasArray.toString());
-
-        const found: boolean = palavraArray.includes(letraProcurada)
-        // console.log("FOUND " + found);
-
-        // Se encontrou, preciso saber as posicões no array
-        if (found) {
-            const indexesOf = (arr: string[], item: string) => 
-            arr.reduce(
-            (acc, v, i) => (v === item && acc.push(i), acc),
-            []);
-            const letrasReveladas: string[] = indexesOf(palavraArray, letraProcurada)
-            // console.log(letrasReveladas);
-
-            //Adiciono uma classe css para poder manipular a letra descoberta
-            letrasReveladas.forEach((element, index) => {
-                let letra = document.getElementById(element)
-                letra.classList.add("letra-descoberta");
-                //console.log(element)
-                acertosDoUsuario++
-            });
+        // Jogar a letra da tentativa em um array e exibi-lo em tela
+        //Mas antes verificar se ela ja foi tentada
+        if (this.procuradasArray.includes(letraProcurada)) {
+            alert("Essa já foi, tente outra")
+        } else if (input.value == '' || input.value == ' ' || input.value == '*'){
+            alert("Digite uma letra")
         } else {
-            errosDoUsuario++
-            desenhaForca(errosDoUsuario)
-        }
+            this.procuradasArray.push(letraProcurada);
+            let procuradasDiv = <HTMLElement>document.getElementById('letras-tentadas');
+            procuradasDiv.innerHTML = this.procuradasArray.toString();
+            // console.log(procuradasArray.toString());
 
-        // Conferindo o contador de acertos
-        //console.log("acertos " + acertosDoUsuario)
+            const found: boolean = this.palavraArray.includes(letraProcurada)
+            // console.log("FOUND " + found);
 
-        // Se a quantidade de acertos for igual ao tamanho da palavra, venceu o jogo
-        if (palavraArray.length == acertosDoUsuario) {
-            youWin()
+            // Se encontrou, preciso saber as posicões no array
+            if (found) {
+                const indexesOf = (arr: string[], item: string) => 
+                arr.reduce(
+                (acc, v, i) => (v === item && acc.push(i), acc),
+                []);
+                const letrasReveladas: string[] = indexesOf(this.palavraArray, letraProcurada)
+                // console.log(letrasReveladas);
+
+                //Adiciono uma classe css para poder manipular a letra descoberta
+                letrasReveladas.forEach((element, index) => {
+                    let letra = document.getElementById(element)
+                    letra.classList.add("letra-descoberta");
+                    //console.log(element)
+                    this.acertosDoUsuario++
+                });
+            } else {
+                this.errosDoUsuario++
+                this.desenhaForca(this.errosDoUsuario)
+            }
+
+            // Conferindo o contador de acertos
+            // console.log("acertos " + acertosDoUsuario)
+            // Se a quantidade de acertos for igual ao tamanho da palavra, venceu o jogo
+            if (this.palavraArray.length == this.acertosDoUsuario) {
+                this.youWin()
+            }
         }
+    }
+
+    limpaInput() {
+        let input = <HTMLInputElement>document.getElementById("input-usuario");
+        input.value = '';
+        input.focus();
+    }
+
+    desenhaForca(qtdErros: number) {
+        switch (qtdErros) {
+            case 1:
+                let cabeca = document.getElementById("cabeca");
+                cabeca.classList.add("palitinho-visivel");
+            break;
+
+            case 2:
+                let bracoEsquerdo = document.getElementById("braco-esquerdo");
+                bracoEsquerdo.classList.add("palitinho-visivel");
+            break;
+
+            case 3:
+                let tronco = document.getElementById("tronco");
+                tronco.classList.add("palitinho-visivel");
+            break;
+
+            case 4:
+                let bracoDireito = document.getElementById("braco-direito");
+                bracoDireito.classList.add("palitinho-visivel");
+            break;
+
+            case 5:
+                let pernaEsquerda = document.getElementById("perna-esquerda");
+                pernaEsquerda.classList.add("palitinho-visivel");
+            break;
+
+            case 6:
+                let pernaDireita = document.getElementById("perna-direita");
+                pernaDireita.classList.add("palitinho-visivel");
+                this.gameOver();
+            break;
+        }
+    }
+
+    animacaoGameOver() {
+        let forca = document.getElementById("id-corpinho-pre");
+        forca.classList.add("palitinhos-game-over");
+    }
+
+    animacaoVenceu() {
+        let forca = document.getElementById("id-corpinho-pre");
+        forca.classList.add("palitinhos-venceu");
+    }
+
+    gameOver(){
+        // console.log("Você perdeu")
+        this.desabilitaControles();
+        this.animacaoGameOver();
+        this.exibirMensagem("GAME OVER!!!");
+        this.revelaPalavraFn();
+    }
+
+    youWin(){
+        // console.log("Você venceu")
+        this.desabilitaControles();
+        this.exibirMensagem("ACERTÔ MISERAVI!!");
+        this.animacaoVenceu();
+        this.revelaPalavraFn();
+    }
+
+    revelaPalavraFn() {
+        let revelaResposta = document.getElementById("revelada");
+        revelaResposta.innerHTML = this.palavra;
+    }
+
+    desabilitaControles() {
+        let input = <HTMLInputElement>document.getElementById("input-usuario");
+        let btn = <HTMLButtonElement>document.getElementById("tentar-btn");
+        input.disabled = true;
+        btn.disabled = true;
+    }
+
+    exibirMensagem(msg: string) {
+        let mensagem = <HTMLDivElement>document.getElementById("mensagem");
+        mensagem.innerHTML = msg;
     }
 }
 
-function limpaInput() {
-    let input = <HTMLInputElement>document.getElementById("input-usuario");
-     input.value = '';
-     input.focus();
-}
-
-function desenhaForca(qtdErros: number) {
-    switch (qtdErros) {
-        case 1:
-            let cabeca = document.getElementById("cabeca");
-            cabeca.classList.add("palitinho-visivel");
-        break;
-
-        case 2:
-            let bracoEsquerdo = document.getElementById("braco-esquerdo");
-            bracoEsquerdo.classList.add("palitinho-visivel");
-        break;
-
-        case 3:
-            let tronco = document.getElementById("tronco");
-            tronco.classList.add("palitinho-visivel");
-        break;
-
-        case 4:
-            let bracoDireito = document.getElementById("braco-direito");
-            bracoDireito.classList.add("palitinho-visivel");
-        break;
-
-        case 5:
-            let pernaEsquerda = document.getElementById("perna-esquerda");
-            pernaEsquerda.classList.add("palitinho-visivel");
-        break;
-
-        case 6:
-            let pernaDireita = document.getElementById("perna-direita");
-            pernaDireita.classList.add("palitinho-visivel");
-            gameOver();
-        break;
-    }
-}
-
-function animacaoGameOver() {
-    let forca = document.getElementById("id-corpinho-pre");
-    forca.classList.add("palitinhos-game-over");
-}
-
-function animacaoVenceu() {
-    let forca = document.getElementById("id-corpinho-pre");
-    forca.classList.add("palitinhos-venceu");
-}
-
-function gameOver(){
-    // console.log("Você perdeu")
-    desabilitaControles()
-    animacaoGameOver()
-    exibirMensagem("GAME OVER!!!")
-    revelaPalavraFn()
-}
-
-function youWin(){
-    // console.log("Você venceu")
-    desabilitaControles()
-    exibirMensagem("ACERTÔ MISERAVI!!")
-    animacaoVenceu()
-    revelaPalavraFn()
-}
-
-function revelaPalavraFn() {
-    let revelaResposta = document.getElementById("revelada");
-    revelaResposta.innerHTML = palavra;
-}
-
-function desabilitaControles() {
-    let input = <HTMLInputElement>document.getElementById("input-usuario");
-    let btn = <HTMLButtonElement>document.getElementById("tentar-btn");
-    input.disabled = true;
-    btn.disabled = true;
-}
-
-function exibirMensagem(msg: string) {
-    let mensagem = <HTMLDivElement>document.getElementById("mensagem");
-    mensagem.innerHTML = msg;
-}
+let Jogo = new JogoDaForca;
