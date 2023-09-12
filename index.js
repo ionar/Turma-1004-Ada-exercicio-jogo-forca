@@ -1,17 +1,23 @@
 "use strict";
 /*
-* Jogo da forca - Ionar
+* Jogo da forca - Ionar, Vinicius Souza, Julio Silvestre, Murilo Medeiros
 */
 // Convertendo o codigo para TypeScript
-// Lista de palavras para a forca
-const palavras = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro"];
-// Funcao para sortear uma palavra
-function sortearPalavra() {
-    const palavraSorteada = Math.floor(Math.random() * palavras.length);
-    return palavras[palavraSorteada];
+// Classe de sorteio de palavras para uso no jogo
+class Sorteio {
+    constructor() {
+        // Lista de palavras para a forca
+        this.palavras = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
+    }
+    sortearPalavra() {
+        const palavraSorteada = Math.floor(Math.random() * this.palavras.length);
+        return this.palavras[palavraSorteada];
+    }
 }
-let palavra = sortearPalavra();
-// console.log(palavra);
+// Instanciando o objeto e chamando o metodo para sorteio
+let palavraObj = new Sorteio;
+const palavra = palavraObj.sortearPalavra();
+//console.log(palavra);
 // Convertendo a palavra em um array para poder manipudar cada letra
 let palavraArray = palavra.split('');
 // Preenchendo os elementos do DOM com a palavra sorteada, simulando os tracejados

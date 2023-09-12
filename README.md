@@ -7,8 +7,9 @@
 
 Jogo de Forca em JavaScript
 
-Data de entrega  ?
+Data de entrega  13/09/2023
 Endereço de deploy: http://ionar.com.br/Turma-1004-Ada-exercicio-jogo-forca/
+Grupo: Ionar, Vinicius Souza, Julio Silvestre, Murilo Medeiros
 
 Você está prestes a criar um jogo de forca em JavaScript! O jogo consiste em adivinhar uma palavra oculta, letra por letra. Você terá um número limitado de tentativas para adivinhar a palavra correta.
 
