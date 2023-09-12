@@ -7,7 +7,7 @@
 class Sorteio {
     constructor() {
         // Lista de palavras para a forca
-        this.palavras = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
+        this.palavras = ["volksvagen", "banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
     }
     sortearPalavra() {
         const palavraSorteada = Math.floor(Math.random() * this.palavras.length);
@@ -36,7 +36,7 @@ palavraArray.forEach((element, index) => {
 // Capturar clique no botão e disparar a funcao de busca de letra
 // Definindo o foco no input do usuário
 document.getElementById("input-usuario").focus();
-// Capturando o clique no botao
+// Capturando o clique do botao
 let inputBtn = document.getElementById("tentar-btn");
 inputBtn.onclick = function () {
     tentativa();

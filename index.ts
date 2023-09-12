@@ -6,7 +6,7 @@
 // Classe de sorteio de palavras para uso no jogo
 class Sorteio {
     // Lista de palavras para a forca
-    palavras: string[] = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
+    palavras: string[] = ["volksvagen", "banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro", "faca", "biscoito"];
 
     sortearPalavra() {
         const palavraSorteada: number = Math.floor(Math.random() * this.palavras.length);
@@ -43,7 +43,7 @@ palavraArray.forEach((element, index) => {
 // Definindo o foco no input do usuário
 document.getElementById("input-usuario").focus();
 
-// Capturando o clique no botao
+// Capturando o clique do botao
 let inputBtn = document.getElementById("tentar-btn");
 inputBtn.onclick = function() {
     tentativa();
@@ -59,14 +59,14 @@ input.addEventListener("keyup", ({key}) => {
 })
 
 let procuradasArray: string[] = [];
-let errosDoUsuario = 0;
-let acertosDoUsuario = 0;
+let errosDoUsuario: number = 0;
+let acertosDoUsuario: number = 0;
 
 function tentativa() {
     // Verificar se existe uma letra no array 
     let input = (document.getElementById("input-usuario") as HTMLInputElement);
     // Executo as funcoes em lowercase, mas exibo em tela em uppercase
-    let letraProcurada = input.value.toLowerCase();
+    let letraProcurada: string = input.value.toLowerCase();
     //console.log(letraProcurada);
 
     // Jogar a letra da tentativa em um array e exibi-lo em tela
@@ -86,7 +86,7 @@ function tentativa() {
 
         // Se encontrou, preciso saber as posicões no array
         if (found) {
-            const indexesOf = (arr: [], item: number) => 
+            const indexesOf = (arr: string[], item: string) => 
             arr.reduce(
             (acc, v, i) => (v === item && acc.push(i), acc),
             []);
