@@ -5,22 +5,39 @@ class JogoDaForca {
         return this.palavras[palavraSorteada].toLowerCase();
     }
     constructor() {
-        this.palavras = ['Banana', 'Laranja', 'Morango', 'Uva', 'Pera', 'Abacaxi', 'Melancia', 'Kiwi', 'Manga', 'Cereja', 'Abacate', 'Coco', 'Framboesa', 'Goiaba', 'Amora', 'Pitanga'];
+        this.palavras = [
+            "Banana",
+            "Laranja",
+            "Morango",
+            "Uva",
+            "Pera",
+            "Abacaxi",
+            "Melancia",
+            "Kiwi",
+            "Manga",
+            "Cereja",
+            "Abacate",
+            "Coco",
+            "Framboesa",
+            "Goiaba",
+            "Amora",
+            "Pitanga",
+        ];
         this.palavra = this.sortearPalavra();
-        this.palavraArray = this.palavra.split('');
+        this.palavraArray = this.palavra.split("");
         this.procuradasArray = [];
         this.errosDoUsuario = 0;
         this.acertosDoUsuario = 0;
         this.palavraArray.forEach((element, index) => {
-            let spanWrap = document.createElement('span');
-            spanWrap.setAttribute('class', "letrinhasWrap");
+            let spanWrap = document.createElement("span");
+            spanWrap.setAttribute("class", "letrinhasWrap");
             let indexStr = index.toString() + "-wrapper";
-            spanWrap.setAttribute('id', indexStr);
-            let span = document.createElement('span');
+            spanWrap.setAttribute("id", indexStr);
+            let span = document.createElement("span");
             span.innerHTML = element;
-            span.setAttribute('class', "letrinhas");
-            span.setAttribute('id', index.toString());
-            document.getElementById('letras-gabarito').appendChild(spanWrap);
+            span.setAttribute("class", "letrinhas");
+            span.setAttribute("id", index.toString());
+            document.getElementById("letras-gabarito").appendChild(spanWrap);
             document.getElementById(indexStr).appendChild(span);
         });
         document.getElementById("input-usuario").focus();
@@ -40,27 +57,28 @@ class JogoDaForca {
     tentativa() {
         let input = document.getElementById("input-usuario");
         let letraProcurada = input.value.toLowerCase();
+        if (!/^[a-zA-Z]+$/.test(letraProcurada)) {
+            alert("Por favor, digite apenas letras.");
+            return;
+        }
+
         if (this.procuradasArray.includes(letraProcurada)) {
             alert("Essa já foi, tente outra");
-        }
-        else if (input.value == '' || input.value == ' ' || input.value == '*') {
-            alert("Digite uma letra");
-        }
-        else {
+        } else {
             this.procuradasArray.push(letraProcurada);
-            let procuradasDiv = document.getElementById('letras-tentadas');
+            let procuradasDiv = document.getElementById("letras-tentadas");
             procuradasDiv.innerHTML = this.procuradasArray.toString();
             const found = this.palavraArray.includes(letraProcurada);
             if (found) {
-                const indexesOf = (arr, item) => arr.reduce((acc, v, i) => (v === item && acc.push(i), acc), []);
+                const indexesOf = (arr, item) =>
+                    arr.reduce((acc, v, i) => (v === item && acc.push(i), acc), []);
                 const letrasReveladas = indexesOf(this.palavraArray, letraProcurada);
                 letrasReveladas.forEach((element, index) => {
                     let letra = document.getElementById(element);
                     letra.classList.add("letra-descoberta");
                     this.acertosDoUsuario++;
                 });
-            }
-            else {
+            } else {
                 this.errosDoUsuario++;
                 this.desenhaForca(this.errosDoUsuario);
             }
@@ -71,7 +89,7 @@ class JogoDaForca {
     }
     limpaInput() {
         let input = document.getElementById("input-usuario");
-        input.value = '';
+        input.value = "";
         input.focus();
     }
     desenhaForca(qtdErros) {
@@ -138,4 +156,4 @@ class JogoDaForca {
         mensagem.innerHTML = msg;
     }
 }
-let Jogo = new JogoDaForca;
+let Jogo = new JogoDaForca();

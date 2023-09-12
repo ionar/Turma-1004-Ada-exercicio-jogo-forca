@@ -1,9 +1,11 @@
 /*
-* Jogo da forca - Ionar, Vinicius Souza, Julio Silvestre, Murilo Medeiros
-*/
+ * Jogo da forca - Ionar, Vinicius Souza, Julio Silvestre, Murilo Medeiros
+ */
 // Convertendo o codigo para TypeScript
 
-interface IJogo { 
+import { ValidationInput } from "./validation-input";
+
+interface IJogo {
     palavras: string[];
     palavra: string;
     palavraArray: string[];
@@ -12,15 +14,42 @@ interface IJogo {
     acertosDoUsuario: number;
 }
 
+class ValidacaoLetra extends ValidationInput {
+    static validar(tecla: string): boolean {
+        if (!super.validarLetra(tecla)) {
+            alert("Por favor, digite apenas letras.");
+            return false;
+        }
+        return true;
+    }
+}
+
 class JogoDaForca implements IJogo {
     // Lista de palavras para a forca
-    palavras: string[] = ['Banana','Laranja','Morango','Uva','Pera','Abacaxi','Melancia','Kiwi','Manga','Cereja','Abacate','Coco','Framboesa','Goiaba','Amora','Pitanga'];
+    palavras: string[] = [
+        "Banana",
+        "Laranja",
+        "Morango",
+        "Uva",
+        "Pera",
+        "Abacaxi",
+        "Melancia",
+        "Kiwi",
+        "Manga",
+        "Cereja",
+        "Abacate",
+        "Coco",
+        "Framboesa",
+        "Goiaba",
+        "Amora",
+        "Pitanga",
+    ];
     palavra: string = this.sortearPalavra();
-    palavraArray: string[] = this.palavra.split('');
+    palavraArray: string[] = this.palavra.split("");
     procuradasArray: string[] = [];
     errosDoUsuario: number = 0;
     acertosDoUsuario: number = 0;
-    
+
     sortearPalavra() {
         const palavraSorteada: number = Math.floor(Math.random() * this.palavras.length);
         return this.palavras[palavraSorteada].toLowerCase();
@@ -29,24 +58,24 @@ class JogoDaForca implements IJogo {
     constructor() {
         // Preenchendo os elementos do DOM com a palavra sorteada, simulando os tracejados
         this.palavraArray.forEach((element, index) => {
-            let spanWrap = document.createElement('span');
-            spanWrap.setAttribute('class', "letrinhasWrap");
+            let spanWrap = document.createElement("span");
+            spanWrap.setAttribute("class", "letrinhasWrap");
             let indexStr: string = index.toString() + "-wrapper";
-            spanWrap.setAttribute('id', indexStr);
+            spanWrap.setAttribute("id", indexStr);
 
-            let span = document.createElement('span');
+            let span = document.createElement("span");
             span.innerHTML = element;
-            span.setAttribute('class', "letrinhas");
-            span.setAttribute('id', index.toString());
-            document.getElementById('letras-gabarito').appendChild(spanWrap); 
-            
+            span.setAttribute("class", "letrinhas");
+            span.setAttribute("id", index.toString());
+            document.getElementById("letras-gabarito").appendChild(spanWrap);
+
             document.getElementById(indexStr).appendChild(span);
         });
 
         // Capturar clique no botão e disparar a funcao de busca de letra
         // Definindo o foco no input do usuário
         document.getElementById("input-usuario").focus();
-        
+
         // Capturando o clique do botao
         let inputBtn = document.getElementById("tentar-btn");
         inputBtn.onclick = () => {
@@ -55,69 +84,65 @@ class JogoDaForca implements IJogo {
         };
 
         let input = document.getElementById("input-usuario");
-        input.addEventListener("keyup", ({key}) => {
+        input.addEventListener("keyup", ({ key }) => {
             if (key === "Enter") {
                 this.tentativa();
                 this.limpaInput();
             }
-        })
+        });
     }
 
     tentativa() {
-        // Verificar se existe uma letra no array 
-        let input = (document.getElementById("input-usuario") as HTMLInputElement);
+        // Verificar se existe uma letra no array
+        let input = document.getElementById("input-usuario") as HTMLInputElement;
         // Executo as funcoes em lowercase, mas exibo em tela em uppercase
         let letraProcurada: string = input.value.toLowerCase();
         //console.log(letraProcurada);
 
         // Jogar a letra da tentativa em um array e exibi-lo em tela
         //Mas antes verificar se ela ja foi tentada
-        if (this.procuradasArray.includes(letraProcurada)) {
-            alert("Essa já foi, tente outra")
-        } else if (input.value == '' || input.value == ' ' || input.value == '*'){
-            alert("Digite uma letra")
+        if (!ValidacaoLetra.validar(letraProcurada)) {
+            alert("Por favor, digite apenas letras.");
         } else {
             this.procuradasArray.push(letraProcurada);
-            let procuradasDiv = <HTMLElement>document.getElementById('letras-tentadas');
+            let procuradasDiv = <HTMLElement>document.getElementById("letras-tentadas");
             procuradasDiv.innerHTML = this.procuradasArray.toString();
             // console.log(procuradasArray.toString());
 
-            const found: boolean = this.palavraArray.includes(letraProcurada)
+            const found: boolean = this.palavraArray.includes(letraProcurada);
             // console.log("FOUND " + found);
 
             // Se encontrou, preciso saber as posicões no array
             if (found) {
-                const indexesOf = (arr: string[], item: string) => 
-                arr.reduce(
-                (acc, v, i) => (v === item && acc.push(i), acc),
-                []);
-                const letrasReveladas: string[] = indexesOf(this.palavraArray, letraProcurada)
+                const indexesOf = (arr: string[], item: string) =>
+                    arr.reduce((acc, v, i) => (v === item && acc.push(i), acc), []);
+                const letrasReveladas: string[] = indexesOf(this.palavraArray, letraProcurada);
                 // console.log(letrasReveladas);
 
                 //Adiciono uma classe css para poder manipular a letra descoberta
                 letrasReveladas.forEach((element, index) => {
-                    let letra = document.getElementById(element)
+                    let letra = document.getElementById(element);
                     letra.classList.add("letra-descoberta");
                     //console.log(element)
-                    this.acertosDoUsuario++
+                    this.acertosDoUsuario++;
                 });
             } else {
-                this.errosDoUsuario++
-                this.desenhaForca(this.errosDoUsuario)
+                this.errosDoUsuario++;
+                this.desenhaForca(this.errosDoUsuario);
             }
 
             // Conferindo o contador de acertos
             // console.log("acertos " + acertosDoUsuario)
             // Se a quantidade de acertos for igual ao tamanho da palavra, venceu o jogo
             if (this.palavraArray.length == this.acertosDoUsuario) {
-                this.youWin()
+                this.youWin();
             }
         }
     }
 
     limpaInput() {
         let input = <HTMLInputElement>document.getElementById("input-usuario");
-        input.value = '';
+        input.value = "";
         input.focus();
     }
 
@@ -126,33 +151,33 @@ class JogoDaForca implements IJogo {
             case 1:
                 let cabeca = document.getElementById("cabeca");
                 cabeca.classList.add("palitinho-visivel");
-            break;
+                break;
 
             case 2:
                 let bracoEsquerdo = document.getElementById("braco-esquerdo");
                 bracoEsquerdo.classList.add("palitinho-visivel");
-            break;
+                break;
 
             case 3:
                 let tronco = document.getElementById("tronco");
                 tronco.classList.add("palitinho-visivel");
-            break;
+                break;
 
             case 4:
                 let bracoDireito = document.getElementById("braco-direito");
                 bracoDireito.classList.add("palitinho-visivel");
-            break;
+                break;
 
             case 5:
                 let pernaEsquerda = document.getElementById("perna-esquerda");
                 pernaEsquerda.classList.add("palitinho-visivel");
-            break;
+                break;
 
             case 6:
                 let pernaDireita = document.getElementById("perna-direita");
                 pernaDireita.classList.add("palitinho-visivel");
                 this.gameOver();
-            break;
+                break;
         }
     }
 
@@ -166,7 +191,7 @@ class JogoDaForca implements IJogo {
         forca.classList.add("palitinhos-venceu");
     }
 
-    gameOver(){
+    gameOver() {
         // console.log("Você perdeu")
         this.desabilitaControles();
         this.animacaoGameOver();
@@ -174,7 +199,7 @@ class JogoDaForca implements IJogo {
         this.revelaPalavraFn();
     }
 
-    youWin(){
+    youWin() {
         // console.log("Você venceu")
         this.desabilitaControles();
         this.exibirMensagem("ACERTÔ MISERAVI!!");
@@ -200,4 +225,4 @@ class JogoDaForca implements IJogo {
     }
 }
 
-let Jogo = new JogoDaForca;
+let Jogo = new JogoDaForca();
