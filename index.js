@@ -63,7 +63,8 @@ function tentativa() {
     else {
         procuradasArray.push(letraProcurada);
         let procuradasDiv = document.getElementById('letras-tentadas');
-        procuradasDiv.innerHTML = procuradasArray;
+        procuradasDiv.innerHTML = procuradasArray.toString();
+        // console.log(procuradasArray.toString());
         const found = palavraArray.includes(letraProcurada);
         // console.log("FOUND " + found);
         // Se encontrou, preciso saber as posicões no array

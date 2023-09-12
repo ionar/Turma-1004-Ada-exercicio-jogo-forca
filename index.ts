@@ -5,7 +5,7 @@
 // Convertendo o codigo para TypeScript
 
 // Lista de palavras para a forca
-const palavras = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro"]
+const palavras: string[] = ["banana", "brocolis", "camaro", "marrom", "picanha", "violeta", "cadeira", "leitura", "vinho", "camisa", "repolho", "caixa", "careca", "sapo", "terremoto", "comprimido", "livro", "cachorro"]
 
 // Funcao para sortear uma palavra
 function sortearPalavra() {
@@ -18,7 +18,7 @@ let palavra = sortearPalavra();
 
 
 // Convertendo a palavra em um array para poder manipudar cada letra
-let palavraArray = palavra.split('');
+let palavraArray: string[] = palavra.split('');
 
 // Preenchendo os elementos do DOM com a palavra sorteada, simulando os tracejados
 palavraArray.forEach((element, index) => {
@@ -62,7 +62,7 @@ let acertosDoUsuario = 0;
 
 function tentativa() {
     // Verificar se existe uma letra no array 
-    let input = document.getElementById("input-usuario");
+    let input = (document.getElementById("input-usuario") as HTMLInputElement);
     // Executo as funcoes em lowercase, mas exibo em tela em uppercase
     let letraProcurada = input.value.toLowerCase();
     //console.log(letraProcurada);
@@ -74,20 +74,21 @@ function tentativa() {
     } else if (input.value == '' || input.value == ' ' || input.value == '*'){
         alert("Digite uma letra")
     } else {
-        procuradasArray.push(letraProcurada)
-        let procuradasDiv = document.getElementById('letras-tentadas')
-        procuradasDiv.innerHTML = procuradasArray
+        procuradasArray.push(letraProcurada);
+        let procuradasDiv = <HTMLElement>document.getElementById('letras-tentadas');
+        procuradasDiv.innerHTML = procuradasArray.toString();
+        // console.log(procuradasArray.toString());
 
-        const found = palavraArray.includes(letraProcurada)
+        const found: boolean = palavraArray.includes(letraProcurada)
         // console.log("FOUND " + found);
 
         // Se encontrou, preciso saber as posicões no array
         if (found) {
-            const indexesOf = (arr, item) => 
+            const indexesOf = (arr: [], item: number) => 
             arr.reduce(
             (acc, v, i) => (v === item && acc.push(i), acc),
             []);
-            const letrasReveladas = indexesOf(palavraArray, letraProcurada)
+            const letrasReveladas: string[] = indexesOf(palavraArray, letraProcurada)
             // console.log(letrasReveladas);
 
             //Adiciono uma classe css para poder manipular a letra descoberta
@@ -113,12 +114,12 @@ function tentativa() {
 }
 
 function limpaInput() {
-    let input = document.getElementById("input-usuario");
+    let input = <HTMLInputElement>document.getElementById("input-usuario");
      input.value = '';
      input.focus();
 }
 
-function desenhaForca(qtdErros) {
+function desenhaForca(qtdErros: number) {
     switch (qtdErros) {
         case 1:
             let cabeca = document.getElementById("cabeca");
@@ -185,13 +186,13 @@ function revelaPalavraFn() {
 }
 
 function desabilitaControles() {
-    let input = document.getElementById("input-usuario");
-    let btn = document.getElementById("tentar-btn");
+    let input = <HTMLInputElement>document.getElementById("input-usuario");
+    let btn = <HTMLButtonElement>document.getElementById("tentar-btn");
     input.disabled = true;
     btn.disabled = true;
 }
 
-function exibirMensagem(msg) {
-    let mensagem = document.getElementById("mensagem");
+function exibirMensagem(msg: string) {
+    let mensagem = <HTMLDivElement>document.getElementById("mensagem");
     mensagem.innerHTML = msg;
 }
